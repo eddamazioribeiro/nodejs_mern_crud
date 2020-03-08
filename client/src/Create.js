@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import axios from 'axios';
+require('dotenv').config();
 
 const Create = () => {
     // state
@@ -13,22 +15,30 @@ const Create = () => {
 
     // onChange event handler
     const handleChange = (name) => (event) => {
-        console.log('name', name, 'event', event.target.value);
+        // console.log('name', name, 'event', event.target.value);
         setState({...state, [name]: event.target.value});
     };
 
-    // * another way to write the same function above
-    // function handleChange(name){
-    //     return function(event){
-    //         setState({...state, [name]: event.target.value});
-    //     }
-    // }
+    const handleSubmit = event => {
+        event.preventDefault();
+        axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
+            .then(response => {
+                // empty state
+                setState({...state, title: '', content: '', user: ''});
+                // show sucess alert
+                alert(`Post titled ${response.data.title}`);
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert(error.response.data.error);
+            });
+    } 
 
     return (
         <div className="container p-5">
             <h1>CREATE POST</h1>
             <br/>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="text-muted">Title</label>
                     <input onChange={handleChange('title')} value={title} type="text" className="form-control" placeholder="Post title" required />
