@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import Nav from './Nav';
 require('dotenv').config();
 
 const Create = () => {
@@ -35,7 +36,9 @@ const Create = () => {
     } 
 
     return (
-        <div className="container p-5">
+        <div className="container pb-5">
+            <Nav />
+            <br/>
             <h1>CREATE POST</h1>
             <br/>
             <form onSubmit={handleSubmit}>
