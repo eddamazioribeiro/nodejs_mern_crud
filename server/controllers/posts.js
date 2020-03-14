@@ -50,10 +50,11 @@ exports.update = (req, res) => {
     const {slug} = req.params;
     const {title, content, user} = req.body;
     
-    Post.findByIdAndUpdate({slug}, {title, content, user}, {new: true})
+    Post.findOneAndUpdate({slug}, {title, content, user}, {new: true})
         .exec((err, post) => {
             if(err) console.log(err);
             res.json(post);
+            console.log(post);
         });
 }
 
