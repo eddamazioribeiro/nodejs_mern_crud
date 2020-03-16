@@ -19,6 +19,22 @@ const App = () => {
     fetchPosts();
   }, []);
 
+  const deleteConfirm = (slug) => {
+    let answer = window.confirm('Are you sure you want to delete this post?');
+    if(answer){
+      deletePost(slug);
+    }
+  };
+
+  const deletePost = (slug) => {
+    axios.delete(`${process.env.REACT_APP_API}/post/${slug}`)
+      .then(response => {
+        alert(response.data.message);
+        fetchPosts(); // refresh posts on screen
+      })
+      .catch(err => alert('Error deleting post'));
+  };
+
   return (
     <div className="container pb-5">
       <Nav />
@@ -44,7 +60,7 @@ const App = () => {
                   <Link to={`/post/update/${post.slug}`} className="btn btn-sm btn-outline-warning">
                     <a>Update</a>
                   </Link>
-                  <button className="btn btn-sm btn-outline-danger ml-1">Delete</button>
+                  <button onClick={() => deleteConfirm(post.slug)} className="btn btn-sm btn-outline-danger ml-1">Delete</button>
                 </div>
               </div>              
             </div>
