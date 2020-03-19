@@ -59,7 +59,7 @@ const Create = () => {
                 </div>        
             </form>
         </div>
-  );
+    );
 };
 
 export default Create;
