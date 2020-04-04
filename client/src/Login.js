@@ -20,6 +20,7 @@ const Login = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
+        console.table({name, password});
         // axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
         //     .then(response => {
         //         // empty state
@@ -42,11 +43,21 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="text-muted">Username</label>
-                    <input onChange={handleChange('name')} value={name} type="text" className="form-control" placeholder="Your username" required />
+                    <input onChange={handleChange('name')}
+                        value={name} 
+                        type="text"
+                        className="form-control" 
+                        placeholder="Your username"
+                        required />
                 </div>
                 <div className="form-group">
                     <label className="text-muted">Password</label>
-                    <input onChange={handleChange('password')} value={password} type="text" className="form-control" placeholder="Your Password" required></input>
+                    <input onChange={handleChange('password')}
+                        value={password}
+                        type="text"
+                        className="form-control"
+                        placeholder="Your Password"
+                        required></input>
                 </div>
                 <div className="form-group">
                     <button className="btn btn-primary">Create</button>
