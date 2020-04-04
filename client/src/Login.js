@@ -21,17 +21,18 @@ const Login = () => {
     const handleSubmit = event => {
         event.preventDefault();
         console.table({name, password});
-        // axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
-        //     .then(response => {
-        //         // empty state
-        //         setState({...state, title: '', content: '', user: ''});
-        //         // show sucess alert
-        //         alert(`Post titled ${response.data.title}`);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response);
-        //         alert(error.response.data.error);
-        //     });
+        
+        axios.post(`${process.env.REACT_APP_API}/login`, {name, password})
+            .then(response => {
+                console.log(response);
+                // response will contain user's name and the token
+                // redirect to create post page
+
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert(error.response.data.error);
+            });
     };
 
     return (
@@ -54,7 +55,7 @@ const Login = () => {
                     <label className="text-muted">Password</label>
                     <input onChange={handleChange('password')}
                         value={password}
-                        type="text"
+                        type="password"
                         className="form-control"
                         placeholder="Your Password"
                         required></input>
