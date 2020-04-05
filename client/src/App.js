@@ -57,9 +57,7 @@ const App = () => {
                 </div>
                 {/* buttons */}
                 <div className="col-md-2">
-                  <Link to={`/post/update/${post.slug}`} className="btn btn-sm btn-outline-warning">
-                    <a>Update</a>
-                  </Link>
+                  <Link to={`/post/update/${post.slug}`} className="btn btn-sm btn-outline-warning">Update</Link>
                   <button onClick={() => deleteConfirm(post.slug)} className="btn btn-sm btn-outline-danger ml-1">Delete</button>
                 </div>
               </div>              
