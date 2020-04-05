@@ -37,4 +37,6 @@ export const logout = (next) => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('user');
     }
+
+    next();
 };

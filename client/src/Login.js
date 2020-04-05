@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
 import Nav from './Nav';
-import {authenticate} from './helpers';
+import {authenticate, getUser} from './helpers';
 
 const Login = (props) => {
     // create state
@@ -12,6 +12,10 @@ const Login = (props) => {
     });
 
     const {name, password} = state; // desctructure values from state
+
+    useEffect(() => {
+        getUser() && props.history.push('/');
+    }, []);
 
     // onChange event handler
     const handleChange = (name) => (event) => {
