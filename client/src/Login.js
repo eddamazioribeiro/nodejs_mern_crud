@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Nav from './Nav';
+import {authenticate} from './helpers';
 
-const Login = () => {
+const Login = (props) => {
     // create state
     const [state, setState] = useState({
         name: '',
@@ -25,9 +26,9 @@ const Login = () => {
         axios.post(`${process.env.REACT_APP_API}/login`, {name, password})
             .then(response => {
                 console.log(response);
-                // response will contain user's name and the token
-                // redirect to create post page
-
+                authenticate(response, () =>{
+                    props.history.push('/create');
+                });
             })
             .catch(error => {
                 console.log(error.response);
@@ -61,11 +62,11 @@ const Login = () => {
                         required></input>
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary">Create</button>
+                    <button className="btn btn-primary">Login</button>
                 </div>        
             </form>
         </div>
     );
 };
 
-export default Login;
+export default withRouter(Login);
