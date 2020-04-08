@@ -36,7 +36,8 @@ const Create = () => {
         axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
             .then(response => {
                 // empty state
-                setState({...state, title: '', content: '', user: ''});
+                setState({...state, title: '', user: ''});
+                setContent('');
                 // show sucess alert
                 alert(`Post titled ${response.data.title}`);
             })
