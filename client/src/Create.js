@@ -1,23 +1,34 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import Nav from './Nav';
+import {getUser} from './helpers';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
 require('dotenv').config();
 
 const Create = () => {
     // state
     const [state, setState] = useState({
         title: '',
-        content: '',
-        user: ''
+        user: getUser()
     });
 
+    // separate state for contento (rich text editor)
+    const [content, setContent] = useState('');
+
     // destructure values from state
-    const{title, content, user} = state;
+    const{title, user} = state;
 
     // onChange event handler
     const handleChange = (name) => (event) => {
         // console.log('name', name, 'event', event.target.value);
         setState({...state, [name]: event.target.value});
+    };
+
+    // rich text editor event handler
+    const handleContent = (event) => {
+        console.log(event);
+        setContent(event);
     };
 
     const handleSubmit = event => {
@@ -44,15 +55,33 @@ const Create = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label className="text-muted">Title</label>
-                    <input onChange={handleChange('title')} value={title} type="text" className="form-control" placeholder="Post title" required />
+                    <input
+                        onChange={handleChange('title')}
+                        value={title}
+                        type="text"
+                        className="form-control"
+                        placeholder="Post title"
+                        required />
                 </div>
                 <div className="form-group">
                     <label className="text-muted">Content</label>
-                    <textarea onChange={handleChange('content')} value={content} type="text" className="form-control" placeholder="Write something" required></textarea>
+                    <ReactQuill
+                        onChange={handleContent}
+                        value={content}
+                        className="pb-5 mb-3"
+                        theme="bubble"
+                        placeholder="Write something"
+                        style={{border: '1px solid #666'}}/>
                 </div>
                 <div className="form-group">
                     <label className="text-muted">User</label>
-                    <input onChange={handleChange('user')} value={user} type="text" className="form-control" placeholder="Your name" required />
+                    <input
+                        onChange={handleChange('user')}
+                        value={user}
+                        type="text"
+                        className="form-control"
+                        placeholder="Your name"
+                        required />
                 </div>
                 <div className="form-group">
                     <button className="btn btn-primary">Create</button>
