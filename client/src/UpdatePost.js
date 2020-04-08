@@ -1,23 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Nav from './Nav';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
 
 const UpdatePost = props => {
     const [state, setState] = useState({
         title: '',
-        content: '',
         slug: '',
         user: ''
     });
 
-    const {title, content, slug, user} = state;
+    // separate state for contento (rich text editor)
+    const [content, setContent] = useState('');
+
+    const {title, slug, user} = state;
     
     useEffect(() =>{
         axios.get(`${process.env.REACT_APP_API}/post/${props.match.params.slug}`)
             .then(response => {
                 const {title, content, slug, user} = response.data;
 
-                setState({...state, title, content, slug, user});
+                setState({...state, title, slug, user});
+                setContent(content);
             })
             .catch(error => alert('Error updating post'));
     }, []);
@@ -26,6 +31,12 @@ const UpdatePost = props => {
     const handleChange = (name) => (event) => {
         // console.log('name', name, 'event', event.target.value);
         setState({...state, [name]: event.target.value});
+    };
+
+    // rich text editor event handler
+    const handleContent = (event) => {
+        console.log(event);
+        setContent(event);
     };
 
     const handleSubmit = event => {
@@ -51,15 +62,29 @@ const UpdatePost = props => {
         <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <label className="text-muted">Title</label>
-                <input onChange={handleChange('title')} value={title} type="text" className="form-control" placeholder="Post title" required />
+                <input onChange={handleChange('title')}
+                    value={title} type="text"
+                    className="form-control"
+                    placeholder="Post title" 
+                    required />
             </div>
             <div className="form-group">
                 <label className="text-muted">Content</label>
-                <textarea onChange={handleChange('content')} value={content} type="text" className="form-control" placeholder="Write something" required></textarea>
+                <ReactQuill
+                        onChange={handleContent}
+                        value={content}
+                        className="pb-5 mb-3"
+                        theme="bubble"
+                        placeholder="Write something"
+                        style={{border: '1px solid #666'}}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">User</label>
-                <input onChange={handleChange('user')} value={user} type="text" className="form-control" placeholder="Your name" required />
+                <input onChange={handleChange('user')}
+                    value={user} type="text"
+                    className="form-control"
+                    placeholder="Your name"
+                    required />
             </div>
             <div className="form-group">
                 <button className="btn btn-primary">Update</button>
